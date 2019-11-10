@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "src/index.js",
+  "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "@emotion/core": "10.0.21",
     "@testing-library/jest-dom": "4.1.2",
     "@testing-library/react": "9.3.0",
+    "electron-is-dev": "^1.1.0",
     "firebase": "6.6.1",
     "firebase-tools": "7.6.1",
     "lodash": "4.17.15",
@@ -19,16 +21,51 @@
     "recharts": "1.8.3"
   },
   "devDependencies": {
-    "typescript": "3.3.3"
+    "@rescripts/cli": "^0.0.13",
+    "@rescripts/rescript-env": "^0.0.11",
+    "concurrently": "^5.0.0",
+    "electron": "^7.1.1",
+    "electron-builder": "^22.1.0",
+    "typescript": "^3.7.2",
+    "wait-on": "^3.3.0"
   },
   "scripts": {
     "install": "cd functions && yarn",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
     "eject": "react-scripts eject",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "yarn build",
+    "electron-pack": "build -mw",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "firebase": "firebase",
     "deploy": "yarn firebase deploy"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@domain.com",
+    "url": "https://your-website.com"
+  },
+  "build": {
+    "appId": "com.my-website.my-app",
+    "productName": "MyApp",
+    "copyright": "Copyright © 2019 ${author}",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  }
 }
